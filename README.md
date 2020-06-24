@@ -1,4 +1,4 @@
-# Installation #
+# Books Database #
 
 ## Prerequisites
 * Node.js >= 10.0.0
