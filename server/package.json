@@ -1,23 +1,30 @@
 {
-  "name": "node-starter-server",
+  "name": "node-react-books-database-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Books database server",
   "main": "./src/index.js",
   "scripts": {
     "cache:clean": "rm ./cache.db",
     "cache:invalidate": "node ./src/invalidate-cache.js",
     "lint": "eslint ./src",
+    "prettier": "prettier \"src/**/*.{js,jsx,ts,tsx,json,md}\"",
+    "prettier:write": "npm run prettier -- --write",
+    "sequelize": "sequelize",
     "start": "node ./src/index.js",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "validate": "npm run lint && npm run prettier -- --list-different"
   },
   "author": "Brandon Johnson",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
     "cors": "^2.8.5",
+    "dotenv": "10.0.0",
     "express": "^4.17.1",
-    "sqlite": "^3.0.3"
+    "sqlite": "^3.0.3",
+    "sequelize": "6.7.0",
+    "winston": "3.3.3"
   },
   "devDependencies": {
     "eslint": "^6.0.1",
@@ -28,5 +35,28 @@
     "eslint-plugin-standard": "^4.0.0",
     "jest": "^24.8.0",
     "supertest": "^4.0.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "rules": {
+      "camelcase": "error",
+      "no-console": "error",
+      "no-var": "error"
+    }
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "printWidth": 100,
+    "proseWrap": "preserve",
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
   }
 }
