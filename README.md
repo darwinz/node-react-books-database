@@ -1,8 +1,8 @@
 # Books Database #
 
 ## Prerequisites
-* Node.js >= 10.0.0
-* Npm >= 5.6.0
+* Node.js >= 18.0.0
+* Npm >= 9.0.0
 
 ## Setup ##
 

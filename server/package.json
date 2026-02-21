@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Books database server",
   "main": "./src/index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "cache:clean": "rm ./cache.db",
     "cache:invalidate": "node ./src/invalidate-cache.js",
