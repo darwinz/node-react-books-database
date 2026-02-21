@@ -4,7 +4,8 @@ var path = require('path')
 async function get(bookId) {
   try {
     const rawData = fs.readFileSync(path.join(__dirname, 'books-data.json'))
-    const results = JSON.parse(rawData)
+    const parsed = JSON.parse(rawData)
+    const results = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.results) ? parsed.results : [])
     const response = { results: [] }
     if (results) {
       const books = results.filter(bk => bk.id === bookId)

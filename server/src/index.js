@@ -5,7 +5,6 @@ const bookDb = require('./book-db')
 let server
 let shuttingDown = false
 
-
 async function startup() {
   console.log('Initializing db...')
   await db.connect('cache.db')

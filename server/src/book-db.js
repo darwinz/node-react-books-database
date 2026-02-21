@@ -22,13 +22,17 @@ async function upsert(results) {
     values ($id, $title, $tags, $cached_date)
     on conflict(id) do update set title = $title, tags = $tags, cached_date = $cached_date;`
 
-  let book = results['results'][0]
+  const book = results && Array.isArray(results.results) ? results.results[0] : results
+
+  if (!book) {
+    return null
+  }
 
   return db.execute(statement, {
     $id: book.id,
     $title: book.title,
     $tags: book.tags,
-    $cached_date: book.cached_date ? book.cached_date : Date.now(),
+    $cached_date: book.cached_date ? book.cached_date : Date.now()
   })
 }
 
