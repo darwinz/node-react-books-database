@@ -1,0 +1,10 @@
+{
+  "name": "node-react-books-database",
+  "private": true,
+  "scripts": {
+    "docker:start": "docker compose up -d --build",
+    "docker:stop": "docker compose stop",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  }
+}
