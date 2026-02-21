@@ -1,27 +1,80 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background: #151515;
-  color: #ffffff;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  margin: 0;
+  background: linear-gradient(160deg, #fbf7ef 0%, #efe5d7 100%);
+  color: #2f2a24;
+  font-family: Georgia, "Times New Roman", serif;
 }
-body strong {
-  color: #9b9b9b;
-  font-weight: bold;
+
+a {
+  color: #5c2c06;
 }
-.book {
-  background: #222222;
-  list-style-type: none;
-  border: 1px solid #333333;
-  margin: 20px;
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid #dcc9ad;
+}
+
+.app-logo {
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.app-main {
+  padding: 24px;
+}
+
+.card {
+  background: #fffdf9;
+  border: 1px solid #ddcfb9;
+  border-radius: 10px;
   padding: 20px;
-  display: inline-block;
-  min-width: 150px;
+  max-width: 520px;
+}
+
+.lookup-form {
+  display: grid;
+  gap: 8px;
+}
+
+.lookup-form input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #cfbda0;
+}
+
+.lookup-form button,
+.tags-toggle {
+  width: fit-content;
+  border: 1px solid #aa7c4f;
+  background: #efe2d0;
+  color: #3d2711;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.quick-links {
+  margin-top: 14px;
+}
+
+.quick-link {
+  margin-right: 8px;
+}
+
+.tags-row {
+  margin: 12px 0;
 }
 
 .tags {
-  list-style-type: none;
-}
-
-.tags-toggle {
-  cursor: pointer;
+  margin: 10px 0 0;
+  padding-left: 18px;
 }

@@ -1,51 +1,85 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { Link, useParams } from "react-router-dom"
+import { fetchBookById } from "../api/books"
 
-export default class Book extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      book: null,
-      showTags: false,
+export default function Book() {
+  const { id } = useParams()
+  const [book, setBook] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+  const [showTags, setShowTags] = useState(false)
+
+  useEffect(() => {
+    let isSubscribed = true
+    const controller = new AbortController()
+
+    setLoading(true)
+    setError("")
+    setBook(null)
+    setShowTags(false)
+
+    fetchBookById(id, { signal: controller.signal })
+      .then(result => {
+        if (!isSubscribed) return
+        setBook(result)
+      })
+      .catch(err => {
+        if (!isSubscribed || err.name === "AbortError") return
+        setError("We couldn't load this book right now.")
+      })
+      .finally(() => {
+        if (!isSubscribed) return
+        setLoading(false)
+      })
+
+    return () => {
+      isSubscribed = false
+      controller.abort()
     }
-    this.toggleTags = this.toggleTags.bind(this)
+  }, [id])
+
+  const tags = book && book.tags ? book.tags.split(",").map(tag => tag.trim()) : []
+
+  if (loading) {
+    return <div className="card">Loading book {id}...</div>
   }
 
-  toggleTags() {
-    this.setState({ showTags: !this.state.showTags } )
-  }
-
-  componentDidMount() {
-    fetch(`http://localhost:5000/books/${this.props.bookId}`)
-      .then(res => res.json())
-      .then(results => this.setState({ book: results['results'][0] }))
-  }
-
-  render() {
+  if (error) {
     return (
-      <div>
-        {this.state.book ? (
-          <ul className="book">
-            <li><strong>ID:</strong> {this.state.book.id}</li>
-            <li><strong>Title:</strong> {this.state.book.title}</li>
-            <li>
-              <div className="tags-toggle" onClick={this.toggleTags}>
-                <strong>Tags:</strong>
-            { this.state.showTags && this.state.book.tags ? (
-              <ul className="tags">
-                { this.state.book.tags.split(',').map(tag => <li key={tag}>{tag}</li>) }
-              </ul>
-            ) :
-              ( <span className="ellipses tags-toggle" onClick={this.toggleTags}>
-                  <strong> ...</strong>
-                </span> )
-            }
-              </div>
-            </li>
-          </ul>
-        ) : (
-          <div>Loading</div>
-        )}
+      <div className="card">
+        <p>{error}</p>
+        <Link to="/">Back home</Link>
       </div>
     )
   }
+
+  if (!book) {
+    return (
+      <div className="card">
+        <h2>Book not found</h2>
+        <p>There is no book with id {id}.</p>
+        <Link to="/">Try another id</Link>
+      </div>
+    )
+  }
+
+  return (
+    <article className="card">
+      <h2>{book.title}</h2>
+      <p><strong>ID:</strong> {book.id}</p>
+      <div className="tags-row">
+        <button type="button" className="tags-toggle" onClick={() => setShowTags(!showTags)}>
+          {showTags ? "Hide tags" : "Show tags"}
+        </button>
+        {showTags && (
+          <ul className="tags">
+            {tags.map(tag => (
+              <li key={tag}>{tag}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <Link to="/">Back home</Link>
+    </article>
+  )
 }
