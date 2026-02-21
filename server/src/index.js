@@ -2,6 +2,9 @@ const createApp = require('./app')
 const db = require('./sqlite-wrapper')
 const bookDb = require('./book-db')
 
+const PORT = Number(process.env.PORT || 5000)
+const HOST = process.env.HOST || '0.0.0.0'
+
 let server
 let shuttingDown = false
 
@@ -12,7 +15,7 @@ async function startup() {
 
   console.log('Initializing express app...')
   return new Promise(resolve => {
-    server = createApp().listen(5000, '0.0.0.0', async () => {
+    server = createApp().listen(PORT, HOST, async () => {
       const { address, port } = server.address()
       console.log(`Listening at http://${address}:${port}`)
       resolve()

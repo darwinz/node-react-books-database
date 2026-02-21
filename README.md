@@ -21,3 +21,21 @@ npm install
 npm test
 npm start
 ```
+
+## Docker ##
+
+Build and run both frontend and backend:
+
+```
+docker compose up --build
+```
+
+App URLs:
+- Client: http://localhost:3000
+- Server: http://localhost:5001
+
+Stop containers:
+
+```
+docker compose down
+```
