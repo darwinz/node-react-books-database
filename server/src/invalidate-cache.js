@@ -10,9 +10,9 @@ const invalidateCache = async () => {
 }
 
 invalidateCache()
-.then(() => {
-  console.log('Finished invalidating stale cache...')
-})
-.catch(err => {
-  console.error(err)
-})
+  .then(() => {
+    console.log('Finished invalidating stale cache...')
+  })
+  .catch(err => {
+    console.error(err)
+  })

@@ -5,18 +5,17 @@ async function get(bookId) {
   const result = await bookDb.get(bookId)
 
   if (result && (Date.now() - result.cached_date) / 1000 < 86400) {
-    let response = { results: [] }
-    response['results'].push(result)
-    return response
+    return result
   }
 
   const results = await bookApi.get(bookId)
+  const book = results && Array.isArray(results.results) ? results.results[0] : results
 
-  if (results) {
-    await bookDb.upsert(results)
+  if (book) {
+    await bookDb.upsert(book)
   }
 
-  return results
+  return book || null
 }
 
 module.exports = {

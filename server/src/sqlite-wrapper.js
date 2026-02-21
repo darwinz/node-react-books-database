@@ -1,4 +1,5 @@
 const sqlite = require('sqlite')
+const sqlite3 = require('sqlite3')
 
 class SqliteWrapper {
   constructor() {
@@ -6,7 +7,10 @@ class SqliteWrapper {
   }
 
   async connect(dbFilePath) {
-    this.db = await sqlite.open(dbFilePath)
+    this.db = await sqlite.open({
+      filename: dbFilePath,
+      driver: sqlite3.Database
+    })
   }
 
   async close() {

@@ -7,7 +7,7 @@ jest.mock('axios')
 const fs = require('fs')
 
 const MOCK_FILE_INFO = {
-  '../books-data.json': { results: [{id: '34', title: 'book-title', description: 'amazing book', tags: 'tag1, tag2'}] },
+  '../books-data.json': { results: [{ id: '34', title: 'book-title', description: 'amazing book', tags: 'tag1, tag2' }] }
 }
 
 describe('books-api', () => {
@@ -30,8 +30,8 @@ describe('books-api', () => {
 
     describe('on a non-200 response', () => {
       it('returns null', async () => {
-        fs.mock_file_info({'../books-data.json':
-            { results: [{id: '20', title: 'test', description: 'testing', tags: 'tags'}] } })
+        fs.mock_file_info({ '../books-data.json':
+            { results: [{ id: '20', title: 'test', description: 'testing', tags: 'tags' }] } })
         fs.readFileSync()
         axios.get.mockRejectedValue({ status: '404' })
 
