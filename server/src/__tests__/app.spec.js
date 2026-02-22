@@ -24,7 +24,9 @@ describe('app', () => {
       const book = {
         id: '42',
         title: 'ultimate question of life',
+        authors: 'Douglas Adams',
         tags: 'fantasy, sci-fi',
+        description: 'A comedic space adventure.',
         cached_date: Date.now()
       }
       await bookDb.upsert(book)

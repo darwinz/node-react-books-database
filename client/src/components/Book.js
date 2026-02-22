@@ -66,7 +66,8 @@ export default function Book() {
   return (
     <article className="card">
       <h2>{book.title}</h2>
-      <p><strong>ID:</strong> {book.id}</p>
+      {book.authors && <p><strong>Authors:</strong> {book.authors}</p>}
+      {book.description && <p><strong>Description:</strong> {book.description}</p>}
       <div className="tags-row">
         <button type="button" className="tags-toggle" onClick={() => setShowTags(!showTags)}>
           {showTags ? "Hide tags" : "Show tags"}
