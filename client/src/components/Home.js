@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { searchBooksByTitle } from "../api/books"
 
@@ -9,44 +9,59 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [results, setResults] = useState([])
+  const [searchedTitle, setSearchedTitle] = useState("")
+  const requestIdRef = useRef(0)
 
-  const submit = async event => {
-    event.preventDefault()
+  useEffect(() => {
     const value = title.trim()
-    if (!value) return
 
-    setLoading(true)
-    setError("")
-    try {
-      const books = await searchBooksByTitle(value)
-      setResults(books)
-    } catch (err) {
-      setError("Search failed. Please try again.")
-      setResults([])
-    } finally {
+    if (!value) {
       setLoading(false)
+      setError("")
+      setResults([])
+      setSearchedTitle("")
+      return
     }
-  }
 
-  const runQuickSearch = async value => {
+    const timer = setTimeout(async () => {
+      const requestId = requestIdRef.current + 1
+      requestIdRef.current = requestId
+      const controller = new AbortController()
+
+      setLoading(true)
+      setError("")
+
+      try {
+        const books = await searchBooksByTitle(value, { signal: controller.signal })
+        if (requestId !== requestIdRef.current) return
+        setResults(books)
+        setSearchedTitle(value)
+      } catch (err) {
+        if (err.name === "AbortError") return
+        if (requestId !== requestIdRef.current) return
+        setError("Search failed. Please try again.")
+        setResults([])
+        setSearchedTitle(value)
+      } finally {
+        if (requestId === requestIdRef.current) {
+          setLoading(false)
+        }
+      }
+    }, 300)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [title])
+
+  const runQuickSearch = value => {
     setTitle(value)
-    setLoading(true)
-    setError("")
-    try {
-      const books = await searchBooksByTitle(value)
-      setResults(books)
-    } catch (err) {
-      setError("Search failed. Please try again.")
-      setResults([])
-    } finally {
-      setLoading(false)
-    }
   }
 
   return (
     <section className="card">
       <h1>Find a book</h1>
-      <form onSubmit={submit} className="lookup-form">
+      <div className="lookup-form">
         <label htmlFor="book-title">Book title</label>
         <input
           id="book-title"
@@ -54,8 +69,8 @@ export default function Home() {
           onChange={event => setTitle(event.target.value)}
           placeholder="Enter a full or partial title"
         />
-        <button type="submit" disabled={loading}>{loading ? "Searching..." : "Search"}</button>
-      </form>
+        {loading && <p className="search-loading">Searching...</p>}
+      </div>
       <div className="quick-links">
         <p>Quick title searches:</p>
         {sampleTitles.map(sampleTitle => (
@@ -79,8 +94,8 @@ export default function Home() {
           ))}
         </ul>
       )}
-      {!loading && title.trim() && !error && results.length === 0 && (
-        <p className="search-empty">No books found for "{title}".</p>
+      {!loading && searchedTitle && !error && results.length === 0 && searchedTitle === title.trim() && (
+        <p className="search-empty">No books found for "{searchedTitle}".</p>
       )}
     </section>
   )
