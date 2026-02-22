@@ -25,7 +25,7 @@ async function ensureBooksTable() {
 
 async function getById(bookId) {
   const { rows } = await postgres.query(
-    'select id, title, tags from books where id = $1 limit 1;',
+    'select id, title, authors, tags, description from books where id = $1 limit 1;',
     [bookId]
   )
   return rows[0] || null

@@ -12,7 +12,14 @@ describe('book-db', () => {
 
   describe('#get', () => {
     it('gets the book from the repo', async () => {
-      const book = { id: 'rick', title: 'morty', tags: 'rick, morty', cached_date: Date.now() }
+      const book = {
+        id: 'rick',
+        title: 'morty',
+        authors: 'Dan Harmon',
+        tags: 'rick, morty',
+        description: 'Animated comedy.',
+        cached_date: Date.now()
+      }
       await subject.upsert(book)
 
       const result = await subject.get(book.id)
@@ -23,7 +30,14 @@ describe('book-db', () => {
 
   describe('#upsert', () => {
     it('updates existing book data', async () => {
-      const book = { id: 'peter', title: 'griffin', tags: 'peter, griffin', cached_date: Date.now() }
+      const book = {
+        id: 'peter',
+        title: 'griffin',
+        authors: 'Seth MacFarlane',
+        tags: 'peter, griffin',
+        description: 'Animated sitcom.',
+        cached_date: Date.now()
+      }
       await subject.upsert(book)
       book.title = 'family guy'
 
