@@ -15,3 +15,16 @@ export async function fetchBookById(bookId, options = {}) {
 
   return response.json()
 }
+
+export async function searchBooksByTitle(title, options = {}) {
+  const params = new URLSearchParams({ title })
+  const response = await fetch(`${API_BASE_URL}/books?${params.toString()}`, {
+    ...options
+  })
+
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`)
+  }
+
+  return response.json()
+}

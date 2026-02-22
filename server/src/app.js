@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 
 const bookCache = require('./book-cache')
+const bookApi = require('./book-api')
 
 function notFound(req, res, next) {
   next(new Error(`There's nothing here at '${req.url}'`))
@@ -32,11 +33,28 @@ async function getBook(req, res) {
   }
 }
 
+async function searchBooks(req, res) {
+  const title = req.query.title
+  if (!title) {
+    res.status(200).send([])
+    return
+  }
+
+  const data = await bookApi.searchByTitle(title)
+  if (data === null) {
+    res.sendStatus(500)
+    return
+  }
+
+  res.status(200).send(data)
+}
+
 module.exports = () => {
   const app = express()
 
   app.use(cors())
 
+  app.get('/books', wrapAsyncRoute(searchBooks))
   app.get('/books/:id', wrapAsyncRoute(getBook))
 
   app.use(notFound)

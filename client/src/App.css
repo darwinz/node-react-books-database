@@ -70,6 +70,15 @@ a {
   margin-right: 8px;
 }
 
+.quick-link-button {
+  border: 1px solid #cfbda0;
+  border-radius: 6px;
+  background: #fff;
+  padding: 6px 10px;
+  color: #5c2c06;
+  cursor: pointer;
+}
+
 .tags-row {
   margin: 12px 0;
 }
@@ -77,4 +86,14 @@ a {
 .tags {
   margin: 10px 0 0;
   padding-left: 18px;
+}
+
+.search-results {
+  margin-top: 14px;
+  padding-left: 18px;
+}
+
+.search-empty,
+.search-error {
+  margin-top: 12px;
 }
