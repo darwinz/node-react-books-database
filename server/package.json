@@ -9,6 +9,7 @@
   "scripts": {
     "cache:clean": "rm ./cache.db",
     "cache:invalidate": "node ./src/invalidate-cache.js",
+    "db:seed": "node ./src/seed-postgres.js",
     "lint": "eslint ./src",
     "prettier": "prettier \"src/**/*.{js,jsx,ts,tsx,json,md}\"",
     "prettier:write": "npm run prettier -- --write",
@@ -26,6 +27,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
+    "pg": "^8.18.0",
     "sequelize": "^6.37.5",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",

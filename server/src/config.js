@@ -18,6 +18,8 @@ const DB_NAME = dotenv.DB_NAME
 const DB_SCHEMA = dotenv.DB_SCHEMA
 const DB_POOL_MAX = toInt(dotenv.DB_POOL_MAX)
 const DB_POOL_MIN = toInt(dotenv.DB_POOL_MIN)
+const DATABASE_URL = dotenv.DATABASE_URL
+const DB_SSL = toBoolean(dotenv.DB_SSL || 'false')
 
 const DEBUG = toBoolean(dotenv.DEBUG)
 
@@ -33,6 +35,8 @@ module.exports = {
   DB_POOL_MIN,
   DB_PORT,
   DB_SCHEMA,
+  DATABASE_URL,
+  DB_SSL,
   DB_USER,
   DEBUG,
   ENV,
