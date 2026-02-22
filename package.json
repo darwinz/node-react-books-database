@@ -3,8 +3,11 @@
   "private": true,
   "scripts": {
     "docker:start": "docker compose up -d --build",
+    "docker:dev:start": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build",
     "docker:stop": "docker compose stop",
+    "docker:dev:stop": "docker compose -f docker-compose.yml -f docker-compose.dev.yml stop",
     "docker:down": "docker compose down",
+    "docker:dev:down": "docker compose -f docker-compose.yml -f docker-compose.dev.yml down",
     "docker:logs": "docker compose logs -f"
   }
 }
