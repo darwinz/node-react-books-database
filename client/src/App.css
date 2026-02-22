@@ -97,3 +97,7 @@ a {
 .search-error {
   margin-top: 12px;
 }
+
+.search-loading {
+  margin: 8px 0 0;
+}
