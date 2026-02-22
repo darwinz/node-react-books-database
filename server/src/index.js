@@ -1,6 +1,8 @@
 const createApp = require('./app')
 const db = require('./sqlite-wrapper')
 const bookDb = require('./book-db')
+const bookStore = require('./book-store')
+const postgres = require('./postgres-client')
 
 const PORT = Number(process.env.PORT || 5000)
 const HOST = process.env.HOST || '0.0.0.0'
@@ -12,6 +14,7 @@ async function startup() {
   console.log('Initializing db...')
   await db.connect('cache.db')
   await bookDb.createTable()
+  await initPrimaryStore()
 
   console.log('Initializing express app...')
   return new Promise(resolve => {
@@ -40,11 +43,33 @@ async function shutdown() {
   })
 }
 
+async function initPrimaryStore() {
+  if (!bookStore.isEnabled()) {
+    throw new Error('Postgres is not configured. Set DATABASE_URL or DB_* env variables.')
+  }
+
+  console.log('Initializing postgres data store...')
+  await bookStore.ensureBooksTable()
+
+  if (process.env.BOOKS_AUTO_SEED === 'false') {
+    console.log('Skipping postgres seed (BOOKS_AUTO_SEED=false).')
+    return
+  }
+
+  const seedResult = await bookStore.seedDefault()
+  if (seedResult.skipped) {
+    console.log(`Postgres seed skipped (${seedResult.total} books already present).`)
+  } else {
+    console.log(`Postgres seed complete (${seedResult.inserted} books inserted).`)
+  }
+}
+
 async function shutdownDb() {
   console.log('Attempting to close db connection...')
 
   try {
     await db.close()
+    await postgres.close()
     console.log('Db connection closed')
   } catch (err) {
     console.error('An error occurred while shutting down the db', err)

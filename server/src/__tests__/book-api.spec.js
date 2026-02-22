@@ -1,44 +1,43 @@
 const subject = require('../book-api')
-const axios = require('axios')
+const bookStore = require('../book-store')
 
-jest.mock('fs')
-jest.mock('axios')
-
-const fs = require('fs')
-
-const MOCK_FILE_INFO = {
-  '../books-data.json': { results: [{ id: '34', title: 'book-title', description: 'amazing book', tags: 'tag1, tag2' }] }
-}
+jest.mock('../book-store')
 
 describe('books-api', () => {
   beforeEach(() => {
-    axios.get.mockReset()
+    bookStore.getById.mockReset()
+    bookStore.searchByTitle.mockReset()
   })
 
   describe('#get', () => {
-    it('maps the response', async () => {
-      fs.mock_file_info(MOCK_FILE_INFO)
-      fs.readFileSync()
-      // const res = { data: { title: 'book-title', description: 'amazing book', tags: 'tag1, tag2' } }
-      const res = MOCK_FILE_INFO['../books-data.json']['results'][0]
-      axios.get.mockResolvedValue(res)
+    it('returns a wrapped result when found', async () => {
+      bookStore.getById.mockResolvedValue({ id: '34', title: 'book-title', tags: 'tag1, tag2' })
 
-      const book = await subject.get('34')
+      const result = await subject.get('34')
 
-      expect(book['results'][0]).toEqual({ id: '34', title: res.title, tags: res.tags })
+      expect(result).toEqual({ results: [{ id: '34', title: 'book-title', tags: 'tag1, tag2' }] })
+      expect(bookStore.getById).toHaveBeenCalledWith('34')
     })
 
-    describe('on a non-200 response', () => {
-      it('returns null', async () => {
-        fs.mock_file_info({ '../books-data.json':
-            { results: [{ id: '20', title: 'test', description: 'testing', tags: 'tags' }] } })
-        fs.readFileSync()
-        axios.get.mockRejectedValue({ status: '404' })
+    it('returns an empty wrapped result when not found', async () => {
+      bookStore.getById.mockResolvedValue(null)
 
-        const book = await subject.get('34')
+      const result = await subject.get('404')
 
-        expect(book['results']).toEqual([])
-      })
+      expect(result).toEqual({ results: [] })
+      expect(bookStore.getById).toHaveBeenCalledWith('404')
+    })
+  })
+
+  describe('#searchByTitle', () => {
+    it('returns the datastore search results', async () => {
+      const rows = [{ id: '1', title: 'The Final Empire', tags: 'fantasy' }]
+      bookStore.searchByTitle.mockResolvedValue(rows)
+
+      const result = await subject.searchByTitle('Empire')
+
+      expect(result).toEqual(rows)
+      expect(bookStore.searchByTitle).toHaveBeenCalledWith('Empire')
     })
   })
 })
