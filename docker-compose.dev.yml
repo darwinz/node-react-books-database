@@ -1,0 +1,17 @@
+services:
+  server:
+    command: sh -c "npm ci && node ./node_modules/nodemon/bin/nodemon.js --legacy-watch ./src/index.js"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+  client:
+    command: sh -c "npm ci && node ./node_modules/react-scripts/bin/react-scripts.js start"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./client:/app
+      - /app/node_modules

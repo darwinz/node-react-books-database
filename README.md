@@ -39,3 +39,21 @@ Stop containers:
 ```
 docker compose down
 ```
+
+### Docker Dev Mode (Auto Reload)
+
+Run both containers with file watching so code changes apply automatically:
+
+```
+npm run docker:dev:start
+```
+
+This enables:
+- React auto-refresh in `client`
+- Server auto-restart via `nodemon` in `server`
+
+Stop dev mode:
+
+```
+npm run docker:dev:down
+```
