@@ -138,5 +138,110 @@
     "authors": "Brandon Sanderson",
     "tags": "fantasy, high-fantasy, reckoners",
     "description": "Ten years ago, Calamity came. It was a burst in the sky that gave ordinary men and women extraordinary powers. The awed public started calling them Epics. But Epics are no friend of man. With incredible gifts came the desire to rule. And to rule man you must crush his will.\n\nNobody fights the Epics...nobody but the Reckoners. A shadowy group of ordinary humans, they spend their lives studying Epics, finding their weaknesses, and then assassinating them.\n\nAnd David wants in. He wants Steelheart — the Epic who is said to be invincible. The Epic who killed David's father. For years, like the Reckoners, David's been studying, and planning — and he has something they need. Not an object, but an experience.\n\nHe's seen Steelheart bleed. And he wants revenge."
+  },
+  {
+    "id": "21",
+    "title": "Project Hail Mary",
+    "authors": "Andy Weir",
+    "tags": "sci-fi, space, survival",
+    "description": "A lone astronaut wakes on a mission to save Earth and must solve impossible scientific problems while racing against time."
+  },
+  {
+    "id": "22",
+    "title": "The Name of the Wind",
+    "authors": "Patrick Rothfuss",
+    "tags": "fantasy, epic-fantasy",
+    "description": "A legendary hero tells the true story of his life, from gifted child to infamous wizard, musician, and fugitive."
+  },
+  {
+    "id": "23",
+    "title": "Dune",
+    "authors": "Frank Herbert",
+    "tags": "sci-fi, politics, space",
+    "description": "On a desert world where spice controls the galaxy, a young heir is drawn into power struggles, prophecy, and war."
+  },
+  {
+    "id": "24",
+    "title": "The Pragmatic Programmer",
+    "authors": "Andrew Hunt, David Thomas",
+    "tags": "technology, software, engineering",
+    "description": "A practical guide to becoming a better software engineer through habits, thinking tools, and craftsmanship principles."
+  },
+  {
+    "id": "25",
+    "title": "Clean Code",
+    "authors": "Robert C. Martin",
+    "tags": "technology, software, engineering",
+    "description": "A handbook of principles and techniques for writing readable, maintainable, and resilient code."
+  },
+  {
+    "id": "26",
+    "title": "Sapiens",
+    "authors": "Yuval Noah Harari",
+    "tags": "history, science, anthropology",
+    "description": "A broad history of humankind, from ancient foragers to modern societies shaped by culture, myth, and technology."
+  },
+  {
+    "id": "27",
+    "title": "Deep Work",
+    "authors": "Cal Newport",
+    "tags": "productivity, business, psychology",
+    "description": "A case for focused, distraction-free work and practical strategies for producing higher-value results."
+  },
+  {
+    "id": "28",
+    "title": "The Three-Body Problem",
+    "authors": "Cixin Liu",
+    "tags": "sci-fi, first-contact, physics",
+    "description": "A secret project and a mysterious game lead scientists toward a looming first-contact crisis with cosmic consequences."
+  },
+  {
+    "id": "29",
+    "title": "The Hobbit",
+    "authors": "J.R.R. Tolkien",
+    "tags": "fantasy, adventure, classic",
+    "description": "A comfort-loving hobbit is swept into an unexpected quest filled with dwarves, dragons, and unlikely courage."
+  },
+  {
+    "id": "30",
+    "title": "Atomic Habits",
+    "authors": "James Clear",
+    "tags": "self-improvement, productivity, psychology",
+    "description": "A framework for building good habits and breaking bad ones by designing systems around small, consistent actions."
+  },
+  {
+    "id": "31",
+    "title": "Leaders Eat Last",
+    "authors": "Simon Sinek",
+    "tags": "leadership, business, psychology",
+    "description": "An exploration of trust, safety, and culture in teams, and why strong leaders prioritize people over short-term wins."
+  },
+  {
+    "id": "32",
+    "title": "Mistborn: The Well of Ascension",
+    "authors": "Brandon Sanderson",
+    "tags": "fantasy, high-fantasy, mistborn",
+    "description": "After toppling an empire, unlikely heroes discover that ruling may be even harder than rebellion."
+  },
+  {
+    "id": "33",
+    "title": "The Black Prism",
+    "authors": "Brent Weeks",
+    "tags": "fantasy, epic-fantasy, magic",
+    "description": "In a world where magic is drawn from light, political unrest and family secrets threaten to ignite civil war."
+  },
+  {
+    "id": "34",
+    "title": "Thinking, Fast and Slow",
+    "authors": "Daniel Kahneman",
+    "tags": "psychology, behavioral-economics, science",
+    "description": "A look at two modes of thought and how cognitive biases shape decisions, judgments, and risk."
+  },
+  {
+    "id": "35",
+    "title": "The Way of Shadows",
+    "authors": "Brent Weeks",
+    "tags": "fantasy, dark-fantasy, assassin",
+    "description": "A street orphan enters the brutal world of elite assassins and must choose what kind of man he will become."
   }
 ]
