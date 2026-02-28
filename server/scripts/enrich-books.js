@@ -15,7 +15,6 @@ const fs = require('fs')
 const path = require('path')
 const https = require('https')
 
-const SRC_PATH   = path.join(__dirname, '../src/books-data.json')
 const SEEDS_PATH = path.join(__dirname, '../db/seeds/books.json')
 
 // Deterministic pseudo-rating seeded from the book id so re-runs are stable.
@@ -65,7 +64,7 @@ async function enrichBook(book) {
 }
 
 async function main() {
-  const books = JSON.parse(fs.readFileSync(SRC_PATH, 'utf8'))
+  const books = JSON.parse(fs.readFileSync(SEEDS_PATH, 'utf8'))
   const enriched = []
 
   console.log(`Enriching ${books.length} books …\n`)
@@ -80,9 +79,7 @@ async function main() {
     await sleep(300)
   }
 
-  const json = JSON.stringify(enriched, null, 2)
-  fs.writeFileSync(SRC_PATH, json)
-  fs.writeFileSync(SEEDS_PATH, json)
+  fs.writeFileSync(SEEDS_PATH, JSON.stringify(enriched, null, 2))
 
   const withCover = enriched.filter(b => b.coverUrl).length
   console.log(`\nDone. ${withCover}/${enriched.length} books have cover images.`)

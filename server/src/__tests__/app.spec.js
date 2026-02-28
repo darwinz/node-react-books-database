@@ -1,8 +1,5 @@
 const request = require('supertest')
-
 const createApp = require('../app')
-const bookDb = require('../book-db')
-const cacheDb = require('../sqlite-wrapper')
 const bookApi = require('../book-api')
 
 jest.mock('../book-api')
@@ -10,16 +7,16 @@ jest.mock('../book-api')
 describe('app', () => {
   let app
 
-  beforeAll(async () => {
-    await cacheDb.connect(':cache:')
-    await bookDb.createTable()
+  beforeAll(() => {
     app = createApp()
   })
-  afterAll(() => {
-    return cacheDb.close()
+
+  beforeEach(() => {
+    bookApi.get.mockReset()
+    bookApi.searchByTitle.mockReset()
   })
 
-  describe('GET /book/:id', () => {
+  describe('GET /books/:id', () => {
     it('gets a book by ID', async () => {
       const book = {
         id: '42',
@@ -30,28 +27,44 @@ describe('app', () => {
         cover_url: null,
         year: null,
         rating: null,
-        cached_date: Date.now()
       }
-      await bookDb.upsert(book)
+      bookApi.get.mockResolvedValue(book)
 
-      const res = await request(app)
-        .get(`/books/${book.id}`)
-        .send()
+      const res = await request(app).get('/books/42').send()
 
       expect(res.status).toEqual(200)
       expect(res.body).toEqual(book)
+      expect(bookApi.get).toHaveBeenCalledWith('42')
     })
 
     describe('when the book does not exist', () => {
       it('returns 404', async () => {
         bookApi.get.mockResolvedValue(null)
 
-        const res = await request(app)
-          .get('/books/derp')
-          .send()
+        const res = await request(app).get('/books/derp').send()
 
         expect(res.status).toEqual(404)
       })
+    })
+  })
+
+  describe('GET /books', () => {
+    it('returns search results', async () => {
+      const results = [{ id: '1', title: 'The Final Empire', authors: 'Brandon Sanderson' }]
+      bookApi.searchByTitle.mockResolvedValue(results)
+
+      const res = await request(app).get('/books?title=empire').send()
+
+      expect(res.status).toEqual(200)
+      expect(res.body).toEqual(results)
+      expect(bookApi.searchByTitle).toHaveBeenCalledWith('empire')
+    })
+
+    it('returns an empty array when no title is given', async () => {
+      const res = await request(app).get('/books').send()
+
+      expect(res.status).toEqual(200)
+      expect(res.body).toEqual([])
     })
   })
 })

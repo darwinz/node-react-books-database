@@ -3,7 +3,7 @@ const bookStore = require('../book-store')
 
 jest.mock('../book-store')
 
-describe('books-api', () => {
+describe('book-api', () => {
   beforeEach(() => {
     bookStore.isEnabled.mockReturnValue(true)
     bookStore.getById.mockReset()
@@ -11,21 +11,22 @@ describe('books-api', () => {
   })
 
   describe('#get', () => {
-    it('returns a wrapped result when found', async () => {
-      bookStore.getById.mockResolvedValue({ id: '34', title: 'book-title', tags: 'tag1, tag2' })
+    it('returns the book when found', async () => {
+      const book = { id: '34', title: 'book-title', tags: 'tag1, tag2' }
+      bookStore.getById.mockResolvedValue(book)
 
       const result = await subject.get('34')
 
-      expect(result).toEqual({ results: [{ id: '34', title: 'book-title', tags: 'tag1, tag2' }] })
+      expect(result).toEqual(book)
       expect(bookStore.getById).toHaveBeenCalledWith('34')
     })
 
-    it('returns an empty wrapped result when not found', async () => {
+    it('returns null when not found', async () => {
       bookStore.getById.mockResolvedValue(null)
 
       const result = await subject.get('404')
 
-      expect(result).toEqual({ results: [] })
+      expect(result).toBeNull()
       expect(bookStore.getById).toHaveBeenCalledWith('404')
     })
   })

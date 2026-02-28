@@ -7,8 +7,6 @@
     "node": ">=18"
   },
   "scripts": {
-    "cache:clean": "rm ./cache.db",
-    "cache:invalidate": "node ./src/invalidate-cache.js",
     "db:seed": "node ./src/seed-postgres.js",
     "lint": "eslint ./src",
     "prettier": "prettier \"src/**/*.{js,jsx,ts,tsx,json,md}\"",
@@ -29,8 +27,6 @@
     "express": "^4.21.2",
     "pg": "^8.18.0",
     "sequelize": "^6.37.5",
-    "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7",
     "winston": "^3.17.0"
   },
   "devDependencies": {

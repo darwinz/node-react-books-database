@@ -1,6 +1,4 @@
 const createApp = require('./app')
-const db = require('./sqlite-wrapper')
-const bookDb = require('./book-db')
 const bookStore = require('./book-store')
 const postgres = require('./postgres-client')
 
@@ -11,33 +9,13 @@ let server
 let shuttingDown = false
 
 async function startup() {
-  console.log('Initializing db...')
-  await db.connect('cache.db')
-  await bookDb.createTable()
   await initPrimaryStore()
 
   console.log('Initializing express app...')
   return new Promise(resolve => {
-    server = createApp().listen(PORT, HOST, async () => {
+    server = createApp().listen(PORT, HOST, () => {
       const { address, port } = server.address()
       console.log(`Listening at http://${address}:${port}`)
-      resolve()
-    })
-  })
-}
-
-async function shutdown() {
-  const timeoutInMilliseconds = 5000
-  console.log('Attempting to close the http server...')
-  await new Promise(resolve => {
-    const timeout = setTimeout(() => {
-      console.log(`The http server still has not closed after ${timeoutInMilliseconds} milliseconds. This is likely because of sockets still being open. Proceeding with a forced shutdown.`)
-      resolve()
-    }, timeoutInMilliseconds)
-
-    server.close(() => {
-      clearTimeout(timeout)
-      console.log('Http server closed gracefully')
       resolve()
     })
   })
@@ -61,11 +39,26 @@ async function initPrimaryStore() {
   console.log(`Postgres seed complete (${seedResult.inserted} books upserted).`)
 }
 
+async function shutdown() {
+  const timeoutInMilliseconds = 5000
+  console.log('Attempting to close the http server...')
+  await new Promise(resolve => {
+    const timeout = setTimeout(() => {
+      console.log(`The http server still has not closed after ${timeoutInMilliseconds} milliseconds. Proceeding with a forced shutdown.`)
+      resolve()
+    }, timeoutInMilliseconds)
+
+    server.close(() => {
+      clearTimeout(timeout)
+      console.log('Http server closed gracefully')
+      resolve()
+    })
+  })
+}
+
 async function shutdownDb() {
   console.log('Attempting to close db connection...')
-
   try {
-    await db.close()
     await postgres.close()
     console.log('Db connection closed')
   } catch (err) {
