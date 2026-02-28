@@ -14,18 +14,33 @@ async function ensureBooksTable() {
       title text not null,
       authors text,
       tags text,
-      description text
+      description text,
+      cover_url text,
+      year integer,
+      rating numeric(3,1)
     );
   `)
 
   await postgres.query(`
     create index if not exists books_title_idx on books (lower(title));
   `)
+
+  // Non-destructive migrations for the new columns on existing tables
+  for (const col of [
+    'cover_url text',
+    'year integer',
+    'rating numeric(3,1)',
+  ]) {
+    const [name] = col.split(' ')
+    await postgres.query(
+      `alter table books add column if not exists ${name} ${col.slice(name.length + 1)};`
+    )
+  }
 }
 
 async function getById(bookId) {
   const { rows } = await postgres.query(
-    'select id, title, authors, tags, description from books where id = $1 limit 1;',
+    'select id, title, authors, tags, description, cover_url, year, rating from books where id = $1 limit 1;',
     [bookId]
   )
   return rows[0] || null
@@ -37,7 +52,7 @@ async function searchByTitle(title) {
 
   const { rows } = await postgres.query(
     `
-      select id, title, tags
+      select id, title, authors, tags, cover_url, year, rating
       from books
       where lower(title) like lower($1)
       order by title asc
@@ -50,32 +65,37 @@ async function searchByTitle(title) {
 }
 
 async function seedFromFile(jsonPath) {
-  const countResult = await postgres.query('select count(*)::int as count from books;')
-  const existingCount = countResult.rows[0].count
-
-  if (existingCount > 0) {
-    return { inserted: 0, skipped: true, total: existingCount }
-  }
-
   const parsed = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
   const books = Array.isArray(parsed) ? parsed : []
 
   for (const book of books) {
     await postgres.query(
       `
-        insert into books (id, title, authors, tags, description)
-        values ($1, $2, $3, $4, $5)
+        insert into books (id, title, authors, tags, description, cover_url, year, rating)
+        values ($1, $2, $3, $4, $5, $6, $7, $8)
         on conflict(id) do update
-          set title = excluded.title,
-              authors = excluded.authors,
-              tags = excluded.tags,
-              description = excluded.description;
+          set title       = excluded.title,
+              authors     = excluded.authors,
+              tags        = excluded.tags,
+              description = excluded.description,
+              cover_url   = excluded.cover_url,
+              year        = excluded.year,
+              rating      = excluded.rating;
       `,
-      [book.id, book.title, book.authors || null, book.tags || null, book.description || null]
+      [
+        book.id,
+        book.title,
+        book.authors || null,
+        book.tags || null,
+        book.description || null,
+        book.coverUrl || null,
+        book.year || null,
+        book.rating || null,
+      ]
     )
   }
 
-  return { inserted: books.length, skipped: false, total: books.length }
+  return { inserted: books.length, total: books.length }
 }
 
 async function seedDefault() {

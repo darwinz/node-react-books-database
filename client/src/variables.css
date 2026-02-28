@@ -1,0 +1,67 @@
+/* ─── Design Tokens ───────────────────────────────────────────────────────── */
+
+:root {
+  /* Color palette */
+  --color-navy:        #0d1b2a;   /* header, footer background */
+  --color-navy-light:  #152538;   /* hover states on dark surfaces */
+  --color-cream:       #f9f5f0;   /* page background */
+  --color-cream-dark:  #ede8e0;   /* card backgrounds, subtle sections */
+  --color-amber:       #e8a838;   /* accent: stars, CTAs, highlights */
+  --color-amber-dark:  #c98e20;   /* amber hover */
+  --color-slate:       #4a5568;   /* secondary / muted text */
+  --color-slate-dark:  #2d3748;   /* body text */
+  --color-white:       #ffffff;
+  --color-border:      #ddd5c8;   /* subtle dividers */
+  --color-error:       #c0392b;
+  --color-tag-bg:      #ede0cb;   /* genre pill background */
+  --color-tag-text:    #5c3d1e;   /* genre pill text */
+
+  /* Typography */
+  --font-serif:   'Playfair Display', Georgia, serif;
+  --font-sans:    'Inter', system-ui, sans-serif;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold: 600;
+  --weight-bold:    700;
+
+  --line-height-tight:  1.25;
+  --line-height-normal: 1.6;
+
+  /* Spacing */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Layout */
+  --max-width:        1200px;
+  --header-height:    68px;
+  --border-radius-sm: 4px;
+  --border-radius:    8px;
+  --border-radius-lg: 12px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow:    0 4px 12px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.14);
+
+  /* Transitions */
+  --transition: 200ms ease;
+}

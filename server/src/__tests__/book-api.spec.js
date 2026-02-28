@@ -5,6 +5,7 @@ jest.mock('../book-store')
 
 describe('books-api', () => {
   beforeEach(() => {
+    bookStore.isEnabled.mockReturnValue(true)
     bookStore.getById.mockReset()
     bookStore.searchByTitle.mockReset()
   })

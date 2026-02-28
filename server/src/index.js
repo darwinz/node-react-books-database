@@ -45,7 +45,8 @@ async function shutdown() {
 
 async function initPrimaryStore() {
   if (!bookStore.isEnabled()) {
-    throw new Error('Postgres is not configured. Set DATABASE_URL or DB_* env variables.')
+    console.log('Postgres not configured — running in local JSON mode. Set DATABASE_URL or DB_* env variables to enable persistence.')
+    return
   }
 
   console.log('Initializing postgres data store...')
@@ -57,11 +58,7 @@ async function initPrimaryStore() {
   }
 
   const seedResult = await bookStore.seedDefault()
-  if (seedResult.skipped) {
-    console.log(`Postgres seed skipped (${seedResult.total} books already present).`)
-  } else {
-    console.log(`Postgres seed complete (${seedResult.inserted} books inserted).`)
-  }
+  console.log(`Postgres seed complete (${seedResult.inserted} books upserted).`)
 }
 
 async function shutdownDb() {
