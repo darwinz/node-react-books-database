@@ -64,23 +64,34 @@ export default function Book() {
   }
 
   return (
-    <article className="card">
-      <h2>{book.title}</h2>
-      {book.authors && <p><strong>Authors:</strong> {book.authors}</p>}
-      {book.description && <p><strong>Description:</strong> {book.description}</p>}
-      <div className="tags-row">
-        <button type="button" className="tags-toggle" onClick={() => setShowTags(!showTags)}>
-          {showTags ? "Hide tags" : "Show tags"}
-        </button>
-        {showTags && (
-          <ul className="tags">
-            {tags.map(tag => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ul>
-        )}
+    <article className="card book-detail">
+      {book.cover_url && (
+        <img
+          className="book-detail-cover"
+          src={book.cover_url}
+          alt={`Cover of ${book.title}`}
+        />
+      )}
+      <div className="book-detail-body">
+        <h2>{book.title}</h2>
+        {book.authors && <p><strong>Authors:</strong> {book.authors}</p>}
+        {book.year && <p><strong>Year:</strong> {book.year}</p>}
+        {book.rating && <p><strong>Rating:</strong> {book.rating} / 10</p>}
+        {book.description && <p><strong>Description:</strong> {book.description}</p>}
+        <div className="tags-row">
+          <button type="button" className="tags-toggle" onClick={() => setShowTags(!showTags)}>
+            {showTags ? "Hide tags" : "Show tags"}
+          </button>
+          {showTags && (
+            <ul className="tags">
+              {tags.map(tag => (
+                <li key={tag}>{tag}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <Link to="/">Back home</Link>
       </div>
-      <Link to="/">Back home</Link>
     </article>
   )
 }
