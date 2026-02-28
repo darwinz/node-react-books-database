@@ -1,7 +1,6 @@
 const express = require('express')
 const cors = require('cors')
 
-const bookCache = require('./book-cache')
 const bookApi = require('./book-api')
 
 function notFound(req, res, next) {
@@ -25,9 +24,9 @@ function wrapAsyncRoute(asyncRoute) {
 }
 
 async function getBook(req, res) {
-  const data = await bookCache.get(req.params.id)
-  if (data) {
-    res.status(200).send(data)
+  const book = await bookApi.get(req.params.id)
+  if (book) {
+    res.status(200).json(book)
   } else {
     res.sendStatus(404)
   }
@@ -36,17 +35,17 @@ async function getBook(req, res) {
 async function searchBooks(req, res) {
   const title = req.query.title
   if (!title) {
-    res.status(200).send([])
+    res.status(200).json([])
     return
   }
 
-  const data = await bookApi.searchByTitle(title)
-  if (data === null) {
+  const results = await bookApi.searchByTitle(title)
+  if (results === null) {
     res.sendStatus(500)
     return
   }
 
-  res.status(200).send(data)
+  res.status(200).json(results)
 }
 
 module.exports = () => {

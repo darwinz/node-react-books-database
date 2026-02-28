@@ -15,14 +15,11 @@ function readJsonBooks() {
 async function get(bookId) {
   try {
     if (bookStore.isEnabled()) {
-      const book = await bookStore.getById(bookId)
-      return { results: book ? [book] : [] }
+      return bookStore.getById(bookId)
     }
-    const books = readJsonBooks()
-    const book = books.find(b => b.id === bookId) || null
-    return { results: book ? [book] : [] }
+    return readJsonBooks().find(b => b.id === bookId) || null
   } catch (err) {
-    console.log(`Error finding book '${bookId}' from API`, err)
+    console.log(`Error finding book '${bookId}'`, err)
     return null
   }
 }
