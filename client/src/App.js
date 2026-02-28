@@ -1,6 +1,6 @@
 import React from "react"
 import "./App.css"
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import Book from "./components/Book"
 import Home from "./components/Home"
 
@@ -12,10 +12,10 @@ export default function App() {
           <Link to="/" className="app-logo">Books Database</Link>
         </header>
         <main className="app-main">
-          <Switch>
-            <Route path="/books/:id" component={Book} />
-            <Route exact path="/" component={Home} />
-          </Switch>
+          <Routes>
+            <Route path="/books/:id" element={<Book />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
         </main>
       </div>
     </Router>

@@ -15,7 +15,7 @@ function logErrors(err, req, res, next) {
 
 function catchAll(err, req, res) {
   const status = err.status || 500
-  res.status(status).json(res.failureWithError(err))
+  res.status(status).json({ error: err.message })
 }
 
 function wrapAsyncRoute(asyncRoute) {
