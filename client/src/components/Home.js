@@ -89,7 +89,19 @@ export default function Home() {
         <ul className="search-results">
           {results.map(book => (
             <li key={book.id}>
-              <Link to={`/books/${book.id}`}>{book.title}</Link>
+              <Link to={`/books/${book.id}`} className="search-result-item">
+                {book.cover_url && (
+                  <img
+                    className="search-result-cover"
+                    src={book.cover_url}
+                    alt={`Cover of ${book.title}`}
+                  />
+                )}
+                <span className="search-result-info">
+                  <span className="search-result-title">{book.title}</span>
+                  {book.authors && <span className="search-result-author">{book.authors}</span>}
+                </span>
+              </Link>
             </li>
           ))}
         </ul>

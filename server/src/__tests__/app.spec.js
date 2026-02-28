@@ -27,6 +27,9 @@ describe('app', () => {
         authors: 'Douglas Adams',
         tags: 'fantasy, sci-fi',
         description: 'A comedic space adventure.',
+        cover_url: null,
+        year: null,
+        rating: null,
         cached_date: Date.now()
       }
       await bookDb.upsert(book)

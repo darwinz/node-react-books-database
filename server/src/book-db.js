@@ -1,54 +1,65 @@
 const db = require('./sqlite-wrapper')
 
 async function createTable() {
-  const statement = `
+  await db.execute(`
     create table if not exists books (
       id text primary key,
       title text not null,
       authors text,
       tags text,
       description text,
+      cover_url text,
+      year integer,
+      rating real,
       cached_date datetime
-    );`
+    );`)
 
-  await db.execute(statement)
-  await db.execute('alter table books add column authors text;').catch(() => {})
-  await db.execute('alter table books add column description text;').catch(() => {})
-  return null
+  // Non-destructive migrations for columns added after initial schema
+  for (const col of [
+    'authors text',
+    'description text',
+    'cover_url text',
+    'year integer',
+    'rating real',
+  ]) {
+    await db.execute(`alter table books add column ${col};`).catch(() => {})
+  }
 }
 
 async function get(bookId) {
-  return db.get('select id, title, authors, tags, description, cached_date from books where id = $id;', { $id: bookId })
+  return db.get(
+    'select id, title, authors, tags, description, cover_url, year, rating, cached_date from books where id = $id;',
+    { $id: bookId }
+  )
 }
 
-async function upsert(results) {
-  const statement = `
-    insert into books (id, title, authors, tags, description, cached_date)
-    values ($id, $title, $authors, $tags, $description, $cached_date)
-    on conflict(id) do update set title = $title, authors = $authors, tags = $tags, description = $description, cached_date = $cached_date;`
+async function upsert(book) {
+  if (!book) return null
 
-  const book = results && Array.isArray(results.results) ? results.results[0] : results
-
-  if (!book) {
-    return null
-  }
-
-  return db.execute(statement, {
-    $id: book.id,
-    $title: book.title,
-    $authors: book.authors || null,
-    $tags: book.tags,
-    $description: book.description || null,
-    $cached_date: book.cached_date ? book.cached_date : Date.now()
-  })
+  return db.execute(
+    `insert into books (id, title, authors, tags, description, cover_url, year, rating, cached_date)
+     values ($id, $title, $authors, $tags, $description, $cover_url, $year, $rating, $cached_date)
+     on conflict(id) do update set
+       title = $title, authors = $authors, tags = $tags, description = $description,
+       cover_url = $cover_url, year = $year, rating = $rating, cached_date = $cached_date;`,
+    {
+      $id: book.id,
+      $title: book.title,
+      $authors: book.authors || null,
+      $tags: book.tags || null,
+      $description: book.description || null,
+      $cover_url: book.cover_url || null,
+      $year: book.year || null,
+      $rating: book.rating || null,
+      $cached_date: book.cached_date || Date.now(),
+    }
+  )
 }
 
 async function invalidateStaleCache() {
-  const statement = `
+  return db.execute(`
     delete from books
-    where cached_date/1000 < CAST(strftime('%s', datetime('now', '-1 day')) as integer)`
-
-  return db.execute(statement)
+    where cached_date/1000 < CAST(strftime('%s', datetime('now', '-1 day')) as integer)`)
 }
 
 module.exports = {

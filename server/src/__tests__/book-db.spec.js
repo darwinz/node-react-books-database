@@ -18,6 +18,9 @@ describe('book-db', () => {
         authors: 'Dan Harmon',
         tags: 'rick, morty',
         description: 'Animated comedy.',
+        cover_url: null,
+        year: null,
+        rating: null,
         cached_date: Date.now()
       }
       await subject.upsert(book)
@@ -36,6 +39,9 @@ describe('book-db', () => {
         authors: 'Seth MacFarlane',
         tags: 'peter, griffin',
         description: 'Animated sitcom.',
+        cover_url: null,
+        year: null,
+        rating: null,
         cached_date: Date.now()
       }
       await subject.upsert(book)
