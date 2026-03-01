@@ -8,7 +8,7 @@
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.2.0",
+    "react-router-dom": "^6.30.3",
     "react-scripts": "^5.0.1"
   },
   "scripts": {
@@ -36,12 +36,5 @@
   },
   "devDependencies": {
     "@testing-library/react": "^13.4.0"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^react-router-dom$": "<rootDir>/src/__shims__/react-router-dom.js",
-      "^react-router/dom$": "<rootDir>/node_modules/react-router/dist/development/dom-export.js",
-      "^react-router$": "<rootDir>/node_modules/react-router/dist/development/index.js"
-    }
   }
 }
