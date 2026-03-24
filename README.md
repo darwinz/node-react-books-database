@@ -128,3 +128,5 @@ npm run db:seed
 | Method | Endpoint | Description |
 |---|---|---|
 | `GET` | `/books/:id` | Fetch a book by ID |
+
+<img src="https://github-tracker-liart.vercel.app/api/pixel?source=darwinz/books-database" width="1" height="1" />
